@@ -21,18 +21,18 @@
             ?>
 
             <?php
-            $icDOB = date_create_from_format("ymd", $DOB);
-            echo date_format($icDOB, "M d, Y");
-            echo "<br>";
-            ?>
-
-            <?php
             $gender = substr($ic, -1);
             if ($gender % 2 == 0) {
                 echo "Mrs. <br>";
             } else {
                 echo "Mr. <br>";
             }
+            ?>
+
+            <?php
+            $icDOB = date_create_from_format("ymd", $DOB);
+            echo date_format($icDOB, "M d, Y");
+            echo "<br>";
             ?>
 
             <?php
