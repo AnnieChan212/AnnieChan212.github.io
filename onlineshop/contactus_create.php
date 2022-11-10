@@ -27,7 +27,13 @@
                         <a class="nav-link" href="createcustomer_create.php">Create Customer</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="readcustomer.php">Read Customer</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="contactus_create.php">Contact Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="readproduct.php">Read Product</a>
                     </li>
                 </ul>
             </div>

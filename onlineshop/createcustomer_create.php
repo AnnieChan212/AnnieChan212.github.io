@@ -25,12 +25,12 @@
             include 'config/database.php';
             try {
                 // posted values
-                $username = $_POST['username'];
-                $password = $_POST['password'];
-                $firstname = $_POST['firstname'];
-                $lastname = $_POST['lastname'];
-                $gender = $_POST['gender'];
-                $dateofbirth = $_POST['dateofbirth'];
+                $username = htmlspecialchars(strip_tags($_POST['username']));
+                $password = htmlspecialchars(strip_tags($_POST['password']));
+                $firstname = htmlspecialchars(strip_tags($_POST['firstname']));
+                $lastname = htmlspecialchars(strip_tags($_POST['lastname']));
+                $gender = htmlspecialchars(strip_tags($_POST['gender']));
+                $dateofbirth = htmlspecialchars(strip_tags($_POST['dateofbirth']));
 
 
                 if (empty($username)) {
@@ -107,7 +107,13 @@
                         <a class="nav-link active" aria-current="page" href="createcustomer_create.php">Create Customer</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="readcustomer.php">Read Customer</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="contactus_create.php">Contact Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="readproduct.php">Read Product</a>
                     </li>
                 </ul>
             </div>
@@ -133,11 +139,17 @@
                 </tr>
                 <tr>
                     <td>Gender</td>
-                    <td><input type='radio' name='gender' class='form-check-input' /> M </td>
+                    <td>
+                        <input type="radio" id="male" name="gender" value="M">
+                          <label for="M">M</label>
+                          <input type="radio" id="female" name="gender" value="F">
+                          <label for="f">F</label>
+                    </td>
+
                 </tr>
                 <tr>
                     <td>Date of Birth</td>
-                    <td><input type='text' name='dateofbirth' class='form-control' /></td>
+                    <td><input type='date' name='dateofbirth' class='form-control' /></td>
                 </tr>
 
                 <tr>

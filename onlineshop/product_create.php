@@ -25,12 +25,12 @@
             include 'config/database.php';
             try {
                 // posted values
-                $name = $_POST['name'];
-                $description = $_POST['description'];
-                $price = $_POST['price'];
-                $promotion_price = $_POST['promotion_price'];
-                $manufacture_date = $_POST['manufacture_date'];
-                $expired_date = $_POST['expired_date'];
+                $name = htmlspecialchars(strip_tags($_POST['name']));
+                $description = htmlspecialchars(strip_tags($_POST['description']));
+                $price = htmlspecialchars(strip_tags($_POST['price']));
+                $promotion_price = htmlspecialchars(strip_tags($_POST['promotion_price']));
+                $manufacture_date = htmlspecialchars(strip_tags($_POST['manufacture_date']));
+                $expired_date = htmlspecialchars(strip_tags($_POST['expired_date']));
 
                 if (empty($name)) {
                     echo "<div class='alert alert-danger'>Please insert the Name.</div>";
@@ -114,7 +114,13 @@
                         <a class="nav-link" href="createcustomer_create.php">Create Customer</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="readcustomer.php">Read Customer</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="contactus_create.php">Contact Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="readproduct.php">Read Product</a>
                     </li>
                 </ul>
             </div>
