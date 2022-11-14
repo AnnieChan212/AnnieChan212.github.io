@@ -45,10 +45,11 @@
         <?php
         // get passed parameter value, in this case, the record ID
         // isset() is a PHP function used to verify if a value is there or not
-        $username = isset($_GET['username']) ? $_GET['username'] : die('ERROR: Record Username not found.');
+
 
         //include database connection
         include 'config/database.php';
+        $username = isset($_GET['username']) ? $_GET['username'] : die('ERROR: Record Username not found.');
 
         // read current record's data
         try {
