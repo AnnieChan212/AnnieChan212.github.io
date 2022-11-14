@@ -123,7 +123,7 @@
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Username</td>
-                    <td><input type='text' name='username' class='form-control' /></td>
+                    <td><input type='text' name='username' minlength="6" class='form-control' /></td>
                 </tr>
                 <tr>
                     <td>Password</td>
