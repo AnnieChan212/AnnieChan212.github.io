@@ -8,6 +8,10 @@
 </head>
 
 <body>
+    <?php
+    include 'menu.php';
+    ?>
+
     <!-- container -->
     <div class="container">
         <div class="page-header">
@@ -27,9 +31,10 @@
                 // posted values
                 $username = htmlspecialchars(strip_tags($_POST['username']));
                 $password = htmlspecialchars(strip_tags($_POST['password']));
+                $confirm_password = htmlspecialchars(strip_tags($_POST['confirm_password']));
                 $firstname = htmlspecialchars(strip_tags($_POST['firstname']));
                 $lastname = htmlspecialchars(strip_tags($_POST['lastname']));
-                $gender = htmlspecialchars(strip_tags($_POST['gender']));
+                if (isset($_POST['gender'])) $gender = ($_POST['gender']);
                 $dateofbirth = htmlspecialchars(strip_tags($_POST['dateofbirth']));
 
 
@@ -40,7 +45,20 @@
                 if (empty($password)) {
                     echo "<div class='alert alert-danger'>Please insert the Password.</div>";
                     $flag = true;
+                } else {
+                    $password = md5('password');
                 }
+
+                if (empty($confirm_password)) {
+                    echo "<div class='alert alert-danger'>Please insert the Confirm Password.</div>";
+                    $flag = true;
+                } else if ($_POST['password'] == $_POST['confirm_password']) {
+                    $password = md5('password');
+                } else {
+                    echo "<div class='alert alert-danger'>Password not match.</div>";
+                    $flag = true;
+                }
+
                 if (empty($firstname)) {
                     echo "<div class='alert alert-danger'>Please insert the First Name.</div>";
                     $flag = true;
@@ -79,7 +97,7 @@
                         echo "<div class='alert alert-success'>Record was saved.</div>";
                     } else {
                         echo "<div class='alert alert-danger'>Unable to save record.</div>";
-                        echo $password;
+                        //echo $password;
                     }
                 } else {
                     echo "<div class='alert alert-danger'>Makesure is correct</div>";
@@ -94,62 +112,50 @@
 
 
         <!-- html form here where the product information will be entered -->
-        <nav class="navbar navbar-expand-lg bg-light">
-            <div class="container-fluid">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="home_create.php">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="product_create.php">Create Product</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="createcustomer_create.php">Create Customer</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="readcustomer.php">Read Customer</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contactus_create.php">Contact Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="readproduct.php">Read Product</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
 
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Username</td>
-                    <td><input type='text' name='username' minlength="6" class='form-control' /></td>
+                    <td><input type='text' name='username' minlength="6" class='form-control' value='<?php if (isset($_POST['username'])) echo $_POST['username']; ?>' /></td>
                 </tr>
                 <tr>
                     <td>Password</td>
-                    <td><input type='text' name='password' class='form-control' /></td>
+                    <td><input type='password' name='password' class='form-control' value='<?php if (isset($_POST['password'])) echo $_POST['password']; ?>' /></td>
+                </tr>
+                <tr>
+                    <td>Confirm Password</td>
+                    <td><input type='password' name='confirm_password' class='form-control' value='<?php if (isset($_POST['confirm_password'])) echo $_POST['confirm_password']; ?>' /></td>
                 </tr>
                 <tr>
                     <td>First Name</td>
-                    <td><input type='text' name='firstname' class='form-control' /></td>
+                    <td><input type='text' name='firstname' class='form-control' value='<?php if (isset($_POST['firstname'])) echo $_POST['firstname']; ?>' /></td>
                 </tr>
                 <tr>
                     <td>Last Name</td>
-                    <td><input type='text' name='lastname' class='form-control' /></td>
+                    <td><input type='text' name='lastname' class='form-control' value='<?php if (isset($_POST['lastname'])) echo $_POST['lastname']; ?>' /></td>
                 </tr>
                 <tr>
                     <td>Gender</td>
                     <td>
-                        <input type="radio" id="male" name="gender" value="M">
+                        <input type="radio" id="male" name='gender' value="M" <?php if (isset($_POST['gender'])) {
+                                                                                    if ($_POST['gender'] == "M")
+                                                                                        echo "checked";
+                                                                                }
+                                                                                ?> />
                           <label for="M">M</label>
-                          <input type="radio" id="female" name="gender" value="F">
-                          <label for="f">F</label>
+                          <input type="radio" id="female" name='gender' value="F" <?php if (isset($_POST['gender'])) {
+                                                                                        if ($_POST['gender'] == "F")
+                                                                                            echo "checked";
+                                                                                    } ?> />
+                          <label for="F">F</label>
+
                     </td>
 
                 </tr>
                 <tr>
                     <td>Date of Birth</td>
-                    <td><input type='date' name='dateofbirth' class='form-control' /></td>
+                    <td><input type='date' name='dateofbirth' class='form-control' value='<?php if (isset($_POST['dateofbirth'])) echo $_POST['dateofbirth']; ?>' /></td>
                 </tr>
 
                 <tr>

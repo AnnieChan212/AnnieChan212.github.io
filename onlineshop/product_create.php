@@ -8,6 +8,10 @@
 </head>
 
 <body>
+    <?php
+    include 'menu.php';
+    ?>
+
     <!-- container -->
     <div class="container">
         <div class="page-header">
@@ -37,7 +41,7 @@
                     $flag = true;
                 }
                 if (empty($description)) {
-                    echo "<div class='alert alert-danger'>Please insert the Description.</div>";
+                    //echo "<div class='alert alert-danger'>Please insert the Description.</div>";
                     $flag = true;
                 }
                 if (empty($price)) {
@@ -45,11 +49,11 @@
                     $flag = true;
                 }
                 if (empty($promotion_price)) {
-                    echo "<div class='alert alert-danger'>Please insert the Promotion Price.</div>";
+                    //echo "<div class='alert alert-danger'>Please insert the Promotion Price.</div>";
                     $flag = true;
                 }
                 if (empty($manufacture_date)) {
-                    echo "<div class='alert alert-danger'>Please insert the Manufacture Date.</div>";
+                    //echo "<div class='alert alert-danger'>Please insert the Manufacture Date.</div>";
                     $flag = true;
                 }
                 if (empty($expired_date)) {
@@ -101,56 +105,33 @@
 
 
         <!-- html form here where the product information will be entered -->
-        <nav class="navbar navbar-expand-lg bg-light">
-            <div class="container-fluid">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="home_create.php">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="product_create.php">Create Product</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="createcustomer_create.php">Create Customer</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="readcustomer.php">Read Customer</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contactus_create.php">Contact Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="readproduct.php">Read Product</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+
 
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Name</td>
-                    <td><input type='text' name='name' class='form-control' /></td>
+                    <td><input type='text' name='name' class='form-control' value='<?php if (isset($_POST['name'])) echo $_POST['name']; ?>' /></td>
                 </tr>
                 <tr>
                     <td>Description</td>
-                    <td><textarea name='description' class='form-control' rows="4" cols="50"></textarea></td>
+                    <td><textarea name='description' class='form-control' rows="4" cols="50"><?php if (isset($_POST['description'])) echo $_POST['description']; ?></textarea></td>
                 </tr>
                 <tr>
                     <td>Price</td>
-                    <td><input type='text' name='price' class='form-control' /></td>
+                    <td><input type='text' name='price' class='form-control' value='<?php if (isset($_POST['price'])) echo $_POST['price']; ?>' /></td>
                 </tr>
                 <tr>
                     <td>Promotion Price</td>
-                    <td><input type='text' name='promotion_price' class='form-control' /></td>
+                    <td><input type='text' name='promotion_price' class='form-control' value='<?php if (isset($_POST['promotion_price'])) echo $_POST['promotion_price']; ?>' /></td>
                 </tr>
                 <tr>
                     <td>Manufacture Date</td>
-                    <td><input type='text' name='manufacture_date' class='form-control' /></td>
+                    <td><input type='date' name='manufacture_date' class='form-control' value='<?php if (isset($_POST['manufacture_date'])) echo $_POST['manufacture_date']; ?>' /></td>
                 </tr>
                 <tr>
                     <td>Expired Date</td>
-                    <td><input type='text' name='expired_date' class='form-control' /></td>
+                    <td><input type='date' name='expired_date' class='form-control' value='<?php if (isset($_POST['expired_date'])) echo $_POST['expired_date']; ?>' /></td>
                 </tr>
                 <tr>
                     <td></td>
