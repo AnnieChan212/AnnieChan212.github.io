@@ -114,10 +114,12 @@
                 $account_status = 'Active';
 
                 $result = "SELECT * FROM customer WHERE username=:username and account_status=:account_status ";
-
+                // prepare query for execution
                 $stmt = $con->prepare($result);
+                // bind the parameters
                 $stmt->bindParam(':username', $username);
                 $stmt->bindParam(':account_status', $account_status);
+                // Execute the query
                 $stmt->execute();
                 $num = $stmt->rowCount();
 
