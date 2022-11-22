@@ -24,6 +24,12 @@
 
         $flag = false;
 
+        if (isset($_GET["action"])) {
+            if ($_GET["action"] == "success") {
+                echo "<div class='alert alert-success'>Record was saved.</div>";
+            }
+        }
+
         if ($_POST) {
             // include database connection
             include 'config/database.php';
@@ -74,6 +80,35 @@
                 if (empty($dateofbirth)) {
                     echo "<div class='alert alert-danger'>Please insert the Date of Birth.</div>";
                     $flag = true;
+                } else {
+                    $date2 = date('Y-m-d');
+                    $diff = (strtotime($date2) - strtotime($dateofbirth));
+                    $year = floor($diff / (365 * 60 * 60 * 24));
+                    //echo $diff;
+                    //abs(strtotime($date2)) meaning between positive num or negative num zui hou dou hui bian positive
+
+                    if ($year < 18) {
+                        echo "<div class='alert alert-danger'>Age should above 18.</div>";
+                        $flag = true;
+                    }
+                }
+
+                //echo $dateofbirth;
+
+                // insert query
+                $query = "SELECT username FROM customer WHERE username=:username";
+                // prepare query for execution
+                $stmt = $con->prepare($query);
+                // bind the parameters
+                $stmt->bindParam(':username', $username);
+                // Execute the query
+                $stmt->execute();
+                $num = $stmt->rowCount();
+
+                //if num 1 found username from database
+                if ($num > 0) {
+                    echo "<div class='alert alert-danger'>Username have been taken.</div>";
+                    $flag = true;
                 }
 
                 if ($flag == false) {
@@ -94,7 +129,7 @@
                     $stmt->bindParam(':registration_date_time', $registration_date_time);
                     // Execute the query
                     if ($stmt->execute()) {
-                        echo "<div class='alert alert-success'>Record was saved.</div>";
+                        header("Location: http://localhost/portfolio/onlineshop/createcustomer_create.php?action=success");
                     } else {
                         echo "<div class='alert alert-danger'>Unable to save record.</div>";
                         //echo $password;

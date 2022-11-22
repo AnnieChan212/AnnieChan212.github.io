@@ -47,14 +47,6 @@
             border-top-right-radius: 0;
         }
 
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            user-select: none;
-        }
-
         @media (min-width: 768px) {
             .bd-placeholder-img-lg {
                 font-size: 3.5rem;
@@ -80,7 +72,7 @@
         $username = htmlspecialchars(strip_tags($_POST['username']));
 
         // insert query
-        $query = "SELECT * FROM customer WHERE username=:username";
+        $query = "SELECT password, account_status FROM customer WHERE username=:username";
         // prepare query for execution
         $stmt = $con->prepare($query);
         // bind the parameters
@@ -91,39 +83,17 @@
 
         //if num 1 found username from database
         if ($num > 0) {
+            // store retrieved row to a variable
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
+            // values to fill up our form
+            $password = $row['password'];
+            $account_status = $row['account_status'];
 
             //find password
-            $password = md5('password');
-
-            // insert query //password and username must be match only can login
-            $query = "SELECT * FROM customer WHERE password=:password and username=:username";
-            // prepare query for execution
-            $stmt = $con->prepare($query);
-            // bind the parameters
-            $stmt->bindParam(':password', $password);
-            $stmt->bindParam(':username', $username);
-            // Execute the query
-            $stmt->execute();
-            $num = $stmt->rowCount();
-
-            //if num 1 found password from database & direct to homepage
-            if ($num > 0) {
-
+            if ($password == md5('password')) {
                 // account ban
-                $account_status = 'Active';
-
-                $result = "SELECT * FROM customer WHERE username=:username and account_status=:account_status ";
-                // prepare query for execution
-                $stmt = $con->prepare($result);
-                // bind the parameters
-                $stmt->bindParam(':username', $username);
-                $stmt->bindParam(':account_status', $account_status);
-                // Execute the query
-                $stmt->execute();
-                $num = $stmt->rowCount();
-
-                if ($num > 0) {
+                if ($account_status == 'Active') {
                     header("Location: http://localhost/portfolio/onlineshop/home_create.php");
                 } else {
                     $statusErr = "Your account is ban*";
