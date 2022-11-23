@@ -90,7 +90,7 @@
             <tr>
                 <td></td>
                 <td>
-                    <a href='readproduct.php' class='btn btn-danger'>Back to read products</a>
+                    <a href='read_product.php' class='btn btn-danger'>Back to read products</a>
                 </td>
             </tr>
         </table>
