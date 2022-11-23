@@ -8,16 +8,16 @@
                 <a class="nav-link" href="product_create.php">Create Product</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="readproduct.php">Read Product</a>
+                <a class="nav-link" href="product_read.php">Read Product</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="customer_create.php">Create Customer</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="readcustomer.php">Read Customer</a>
+                <a class="nav-link" href="customer_read.php">Read Customer</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="contactus.php">Contact Us</a>
+                <a class="nav-link" href="contact_us.php">Contact Us</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="logout.php">LogOut</a>
