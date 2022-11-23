@@ -59,6 +59,7 @@
                 if (empty($confirm_password)) {
                     //echo "<div class='alert alert-danger'>Please insert the Confirm Password.</div>";
                     $flag = true;
+                    //compare password match or not
                 } else if ($_POST['password'] == $_POST['confirm_password']) {
                     $password = md5('password');
                 } else {

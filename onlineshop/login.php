@@ -98,6 +98,7 @@
                     header("Location: http://localhost/portfolio/onlineshop/home.php");
 
                     // Start the session
+                    // session = box, user key's username store inside box
                     session_start();
                     $_SESSION['user'] = $_POST['username'];
                 } else {
