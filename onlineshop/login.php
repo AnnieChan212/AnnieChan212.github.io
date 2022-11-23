@@ -60,6 +60,7 @@
 </head>
 
 <body class="text-center">
+
     <?php
     //set var Error message
     $useErr =  $pasErr = $statusErr = "";
@@ -94,7 +95,11 @@
             if ($password == md5('password')) {
                 // account ban
                 if ($account_status == 'Active') {
-                    header("Location: http://localhost/portfolio/onlineshop/home_create.php");
+                    header("Location: http://localhost/portfolio/onlineshop/home.php");
+
+                    // Start the session
+                    session_start();
+                    $_SESSION['user'] = $_POST['username'];
                 } else {
                     $statusErr = "Your account is ban*";
                 }

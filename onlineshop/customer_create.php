@@ -10,6 +10,7 @@
 <body>
     <?php
     include 'menu.php';
+    include 'session.php';
     ?>
 
     <!-- container -->
@@ -56,7 +57,7 @@
                 }
 
                 if (empty($confirm_password)) {
-                    echo "<div class='alert alert-danger'>Please insert the Confirm Password.</div>";
+                    //echo "<div class='alert alert-danger'>Please insert the Confirm Password.</div>";
                     $flag = true;
                 } else if ($_POST['password'] == $_POST['confirm_password']) {
                     $password = md5('password');
@@ -129,7 +130,7 @@
                     $stmt->bindParam(':registration_date_time', $registration_date_time);
                     // Execute the query
                     if ($stmt->execute()) {
-                        header("Location: http://localhost/portfolio/onlineshop/createcustomer_create.php?action=success");
+                        header("Location: http://localhost/portfolio/onlineshop/customer_create.php?action=success");
                     } else {
                         echo "<div class='alert alert-danger'>Unable to save record.</div>";
                         //echo $password;

@@ -10,6 +10,7 @@
 <body>
     <?php
     include 'menu.php';
+    include 'session.php';
     ?>
 
 
