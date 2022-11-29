@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE HTML>
 <html>
 
@@ -92,12 +96,14 @@
             $account_status = $row['account_status'];
 
             //find password
-            if ($password == md5('password')) {
+            //echo $password;
+            //echo "<br>";
+            //echo md5($_POST['password']);
+            if ($password == md5($_POST['password'])) {
                 // account ban
                 if ($account_status == 'Active') {
                     // Start the session
                     // session = box, user key's username store inside box
-                    session_start();
                     $_SESSION['user'] = $_POST['username'];
                     header("Location: http://localhost/portfolio/onlineshop/home.php");
                 } else {
@@ -115,6 +121,12 @@
     <main class="form-signin">
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <form>
+                <?php
+                if (isset($_GET['action'])) {
+                    if ($_GET['action'] = 'decline');
+                    echo "<div class='alert alert-danger'>Access Decline.</div>";
+                }
+                ?>
                 <h1 class="h3 mb-3 fw-normal">Please Sign In</h1>
 
                 <!--echo error msg-->

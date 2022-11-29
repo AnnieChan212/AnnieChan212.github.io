@@ -56,7 +56,7 @@ include 'session.php';
                     echo "<div class='alert alert-danger'>Please insert the Password.</div>";
                     $flag = true;
                 } else {
-                    $password = md5('password');
+                    $password = md5($_POST['password']);
                 }
 
                 if (empty($confirm_password)) {
@@ -64,7 +64,7 @@ include 'session.php';
                     $flag = true;
                     //compare password match or not
                 } else if ($_POST['password'] == $_POST['confirm_password']) {
-                    $password = md5('password');
+                    $password = md5($_POST['password']);
                 } else {
                     echo "<div class='alert alert-danger'>Password not match.</div>";
                     $flag = true;
