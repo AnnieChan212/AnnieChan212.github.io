@@ -1,3 +1,7 @@
+<?php
+include 'session.php';
+?>
+
 <!DOCTYPE HTML>
 <html>
 
@@ -10,7 +14,6 @@
 <body>
     <?php
     include 'menu.php';
-    include 'session.php';
     ?>
 
     <!-- container -->

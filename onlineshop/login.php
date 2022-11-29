@@ -95,12 +95,11 @@
             if ($password == md5('password')) {
                 // account ban
                 if ($account_status == 'Active') {
-                    header("Location: http://localhost/portfolio/onlineshop/home.php");
-
                     // Start the session
                     // session = box, user key's username store inside box
                     session_start();
                     $_SESSION['user'] = $_POST['username'];
+                    header("Location: http://localhost/portfolio/onlineshop/home.php");
                 } else {
                     $statusErr = "Your account is ban*";
                 }
