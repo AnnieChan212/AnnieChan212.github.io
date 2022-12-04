@@ -31,16 +31,16 @@ include 'session.php';
 
         //include database connection
         include 'config/database.php';
-        $username = isset($_GET['username']) ? $_GET['username'] : die('ERROR: Record Username not found.');
+        $customer_id = isset($_GET['customer_id']) ? $_GET['customer_id'] : die('ERROR: Record Username not found.');
 
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT username, firstname, lastname, gender, dateofbirth FROM customer WHERE username = ? LIMIT 0,1";
+            $query = "SELECT customer_id, username, firstname, lastname, gender, dateofbirth FROM customer WHERE customer_id = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
 
             // this is the first question mark
-            $stmt->bindParam(1, $username);
+            $stmt->bindParam(1, $customer_id);
 
             // execute our query
             $stmt->execute();
@@ -49,6 +49,7 @@ include 'session.php';
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // values to fill up our form
+            $customer_id = $row['customer_id'];
             $username = $row['username'];
             $firstname = $row['firstname'];
             $lastname = $row['lastname'];

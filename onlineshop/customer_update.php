@@ -46,16 +46,16 @@ include 'session.php';
     include 'config/database.php';
     // get passed parameter value, in this case, the record ID
     // isset() is a PHP function used to verify if a value is there or not
-    $username = isset($_GET['username']) ? $_GET['username'] : die('ERROR: Record Username not found.');
+    $customer_id = isset($_GET['customer_id']) ? $_GET['customer_id'] : die('ERROR: Record Username not found.');
 
     // read current record's data
     try {
         // prepare select query
-        $query = "SELECT username, password, firstname, lastname, gender, dateofbirth FROM customer WHERE username = ? LIMIT 0,1 ";
+        $query = "SELECT customer_id, username, password, firstname, lastname, gender, dateofbirth FROM customer WHERE customer_id = ? LIMIT 0,1 ";
         $stmt = $con->prepare($query);
 
         // this is the first question mark
-        $stmt->bindParam(1, $username);
+        $stmt->bindParam(1, $customer_id);
 
         // execute our query
         $stmt->execute();
@@ -65,6 +65,7 @@ include 'session.php';
 
         // values to fill up our form
         if ($row) {
+            $customer_id = $row['customer_id'];
             $username = $row['username'];
             $password = $row['password'];
             $firstname = $row['firstname'];
@@ -92,22 +93,12 @@ include 'session.php';
             // write update query
             // in this case, it seemed like we have so many fields to pass and
             // it is better to label them and not use question marks
-            $query = "UPDATE customer SET username=:username, password=:password, firstname=:firstname, lastname=:lastname, gender=:gender, dateofbirth=:dateofbirth WHERE username = :username";
-
-            // prepare query for excecution
-            $stmt = $con->prepare($query);
-
-            // posted values //user key de dongxi
-            $username = htmlspecialchars(strip_tags($_POST['username']));
-            $password = htmlspecialchars(strip_tags($_POST['password']));
-            $firstname = htmlspecialchars(strip_tags($_POST['firstname']));
-            $lastname = htmlspecialchars(strip_tags($_POST['lastname']));
-            if (isset($_POST['gender'])) $gender = ($_POST['gender']);
-            $dateofbirth = htmlspecialchars(strip_tags($_POST['dateofbirth']));
 
             if (empty($username)) {
                 echo "<div class='alert alert-danger'>Please insert the UserName.</div>";
                 $flag = true;
+            } else {
+                $username = htmlspecialchars(strip_tags($_POST['username']));
             }
 
             if (!empty($_POST['password'])) {
@@ -138,9 +129,56 @@ include 'session.php';
                     $flag = true;
                 }
             }
+            //echo $_POST['old_password'];
+            //echo '<br>';
+            //echo $password;
+
+            if (empty($firstname)) {
+                echo "<div class='alert alert-danger'>Please insert the First Name.</div>";
+                $flag = true;
+            } else {
+                $firstname = htmlspecialchars(strip_tags($_POST['firstname']));
+            }
+
+            if (empty($lastname)) {
+                echo "<div class='alert alert-danger'>Please insert the Last Name.</div>";
+                $flag = true;
+            } else {
+                $lastname = htmlspecialchars(strip_tags($_POST['lastname']));
+            }
+
+            if (empty($gender)) {
+                echo "<div class='alert alert-danger'>Please insert the Gender.</div>";
+                $flag = true;
+            } else if ((isset($_POST['gender']))) {
+                $gender = ($_POST['gender']);
+            }
+
+            if (empty($dateofbirth)) {
+                echo "<div class='alert alert-danger'>Please insert the Date of Birth.</div>";
+                $flag = true;
+            } else {
+                $dateofbirth = htmlspecialchars(strip_tags($_POST['dateofbirth']));
+                $date2 = date('Y-m-d');
+                $diff = (strtotime($date2) - strtotime($dateofbirth));
+                $year = floor($diff / (365 * 60 * 60 * 24));
+                //echo $diff;
+                //abs(strtotime($date2)) meaning between positive num or negative num zui hou dou hui bian positive
+
+                if ($year < 18) {
+                    echo "<div class='alert alert-danger'>Age should above 18.</div>";
+                    $flag = true;
+                }
+            }
 
             if ($flag == false) {
+                $query = "UPDATE customer SET customer_id=:customer_id, username=:username, password=:password, firstname=:firstname, lastname=:lastname, gender=:gender, dateofbirth=:dateofbirth WHERE customer_id=:customer_id";
+
+                // prepare query for excecution
+                $stmt = $con->prepare($query);
+
                 // bind the parameters
+                $stmt->bindParam(':customer_id', $customer_id);
                 $stmt->bindParam(':username', $username);
                 $stmt->bindParam(':password', $password);
                 $stmt->bindParam(':firstname', $firstname);
@@ -165,7 +203,7 @@ include 'session.php';
 
 
     <!--we have our html form here where new record information can be updated-->
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?username={$username}"); ?>" method="post">
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?customer_id={$customer_id}"); ?>" method="post">
         <table class='table table-hover table-responsive table-bordered container-lg py-4 mt-3'>
             <tr>
                 <td>Username</td>
@@ -173,11 +211,11 @@ include 'session.php';
             </tr>
             <tr>
                 <td>Old Password</td>
-                <td><input type='password' name='password' class='form-control' /></td>
+                <td><input type='password' name='old_password' class='form-control' /></td>
             </tr>
             <tr>
                 <td>New Password</td>
-                <td><input type='password' name='new_password' class='form-control' /></td>
+                <td><input type='password' name='password' class='form-control' /></td>
             </tr>
             <tr>
                 <td>Confirm New Password</td>
