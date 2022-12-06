@@ -94,12 +94,12 @@ include 'session.php';
             // in this case, it seemed like we have so many fields to pass and
             // it is better to label them and not use question marks
 
-            if (empty($username)) {
-                echo "<div class='alert alert-danger'>Please insert the UserName.</div>";
-                $flag = true;
-            } else {
-                $username = htmlspecialchars(strip_tags($_POST['username']));
-            }
+            // if (empty($username)) {
+            //     echo "<div class='alert alert-danger'>Please insert the UserName.</div>";
+            //     $flag = true;
+            // } else {
+            //     $username = htmlspecialchars(strip_tags($_POST['username']));
+            // }
 
             if (!empty($_POST['password'])) {
 
@@ -172,14 +172,13 @@ include 'session.php';
             }
 
             if ($flag == false) {
-                $query = "UPDATE customer SET customer_id=:customer_id, username=:username, password=:password, firstname=:firstname, lastname=:lastname, gender=:gender, dateofbirth=:dateofbirth WHERE customer_id=:customer_id";
+                $query = "UPDATE customer SET customer_id=:customer_id, password=:password, firstname=:firstname, lastname=:lastname, gender=:gender, dateofbirth=:dateofbirth WHERE customer_id=:customer_id";
 
                 // prepare query for excecution
                 $stmt = $con->prepare($query);
 
                 // bind the parameters
                 $stmt->bindParam(':customer_id', $customer_id);
-                $stmt->bindParam(':username', $username);
                 $stmt->bindParam(':password', $password);
                 $stmt->bindParam(':firstname', $firstname);
                 $stmt->bindParam(':lastname', $lastname);
