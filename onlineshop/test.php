@@ -54,7 +54,6 @@ include 'session.php';
             $product_id = $_POST["product_id"];
             $quantity = $_POST["quantity"];
 
-
             //error if morethan 1(duplicate)
             if (count(array_unique($product_id)) < count($product_id)) {
                 echo "<div class='alert alert-danger'>Product cannot be repeated.</div>";
