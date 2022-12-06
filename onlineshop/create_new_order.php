@@ -175,7 +175,7 @@ include 'session.php';
                 //forloop, for 3 product
                 for ($x = 0; $x < 3; $x++) {
                     // select product
-                    $query = "SELECT id, name FROM products ORDER BY id DESC";
+                    $query = "SELECT id, name, price, promotion_price FROM products ORDER BY id DESC";
                     $stmt = $con->prepare($query);
                     $stmt->execute();
                     // this is how to get number of rows returned
@@ -192,7 +192,12 @@ include 'session.php';
                                 if ($num > 0) {
                                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                         extract($row); ?>
-                                        <option value="<?php echo $id; ?>"><?php echo htmlspecialchars($name, ENT_QUOTES); ?></option>
+                                        <option value="<?php echo $id; ?>"><?php echo htmlspecialchars($name, ENT_QUOTES);
+                                                                            if ($promotion_price == 0) {
+                                                                                echo " (RM$price)";
+                                                                            } else {
+                                                                                echo " (RM$promotion_price)";
+                                                                            } ?></option>
                                 <?php }
                                 }
                                 ?>

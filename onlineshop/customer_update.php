@@ -206,7 +206,7 @@ include 'session.php';
         <table class='table table-hover table-responsive table-bordered container-lg py-4 mt-3'>
             <tr>
                 <td>Username</td>
-                <td><input type='text' name='username' minlength="6" value="<?php echo htmlspecialchars($username, ENT_QUOTES);  ?>" class='form-control' /></td>
+                <td><?php echo htmlspecialchars($username, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
                 <td>Old Password</td>
