@@ -26,9 +26,6 @@ include 'session.php';
 <body>
     <?php
     include 'menu.php';
-    include 'config/database.php'; // include database connection
-    //一个标准，detect error 有错误的话就不执行
-    $flag = false;
     ?>
 
     <!-- container -->
@@ -41,14 +38,12 @@ include 'session.php';
         <!-- PHP insert code will be here -->
 
         <?php
+        // include database connection
+        include 'config/database.php';
+        //一个标准，detect error 有错误的话就不执行
+        $err_msg = "";
 
         if ($_POST) {
-            if (empty($_POST["username"])) {
-                echo "<div class='alert alert-danger'>Please select UserName.</div>";
-                $flag = true;
-            } else {
-                $customer_id = htmlspecialchars(strip_tags($_POST['username']));
-            }
 
             //submit user fill in de product and quantity
             $product_id = $_POST["product_id"];
@@ -57,66 +52,58 @@ include 'session.php';
             $value = array_count_values($product_id);
             $quantity = $_POST["quantity"];
 
-            // var_dump($product_id);
-            // echo "<br>";
-            // var_dump($quantity);
-            // echo "<br>";
-            // echo print_r($value);
-
-            // if 3个product_id 空就会show error
-            if ($product_id[0] == "" && $product_id[1] == "" && $product_id[2] == "") {
-                echo "<div class='alert alert-danger'>Please choose at least 1 product.</div>";
+            if (empty($_POST["username"])) {
+                $err_msg .= "<div class='alert alert-danger'>Select Customer</div>";
             } else {
-                //if选product而已，没有选quantity then show error
-                if ((!empty($product_id[0]) && empty($quantity[0])) or (!empty($product_id[1]) && empty($quantity[1])) or (!empty($product_id[2]) && empty($quantity[2]))) {
-                    echo "<div class='alert alert-danger'>Please type the quantity.</div>";
-                } else {
+                $customer_id = htmlspecialchars(strip_tags($_POST['username']));
+            }
+
+            for ($i = 0; $i < count($product_id); $i++) {
+
+                // if 3个product_id 空就会show error
+                if ($product_id[$i] == "" && $quantity[$i] == "") {
+                    $err_msg .= "<div class='alert alert-danger'>Choose Product $i with quatity</div>";
+                }
+                if ($value[$product_id[$i]] > 1) {
+                    $err_msg .= "<div class='alert alert-danger'>No Duplicate Product $i allowed</div>";
+                }
+            }
+
+
+            if (empty($err_msg)) {
+                $order_date = date('Y-m-d');
+                //send data to 'order_summary' table in myphp
+                $query = "INSERT INTO order_summary SET customer_id=:customer_id, order_date=:order_date";
+                $stmt = $con->prepare($query);
+                //把$ user打的id 跟php的:id link在一起. :database & $ is user
+                $stmt->bindParam(':customer_id', $customer_id);
+                $stmt->bindParam(':order_date', $order_date);
+                if ($stmt->execute()) {
+                    //if success,then ba order_id put order_details table
+                    $order_id = $con->lastInsertId();
+
                     //count这个var 不管你有多少个product_id,它会auto帮你算
                     //record product_id（有多少个就loop几次）这里只有3个所以loop 3time into order_summary & details tables
                     for ($i = 0; $i < count($product_id); $i++) {
-                        // if product_id & quantity没有空才会继续做下面东西
-                        if (!empty($product_id[$i]) && !empty($quantity[$i])) {
-                            // 没有duplicate的product才会继续process
-                            // 这里的value == 1 是一个的话 才会接下去
-                            if ($value[$product_id[$i]] == 1) {
 
-                                if ($flag == false) {
-
-                                    //send data to 'order_summary' table in myphp
-                                    $query = "INSERT INTO order_summary SET customer_id=:customer_id, order_date=:order_date";
-                                    $stmt = $con->prepare($query);
-                                    //把$ user打的id 跟php的:id link在一起. :database & $ is user
-                                    $stmt->bindParam(':customer_id', $customer_id);
-                                    $order_date = date('Y-m-d');
-                                    $stmt->bindParam(':order_date', $order_date);
-                                    if ($stmt->execute()) {
-                                        echo "<div class='alert alert-success'>Order Successful.</div>";
-                                        //if success,then ba order_id put order_details table
-                                        $order_id = $con->lastInsertId();
-
-                                        //send data to 'order_details' table in myphp
-                                        $query = "INSERT INTO order_details SET product_id=:product_id, quantity=:quantity,order_id=:order_id";
-                                        $stmt = $con->prepare($query);
-                                        //product & quantity is array, [0,1,2]
-                                        // user key and link to database's product_id
-                                        $stmt->bindParam(':product_id', $product_id[$i]);
-                                        $stmt->bindParam(':quantity', $quantity[$i]);
-                                        $stmt->bindParam(':order_id', $order_id);
-                                        $stmt->execute();
-                                    } else {
-                                        echo "<div class='alert alert-danger'>Order Fail.</div>";
-                                    }
-                                } else {
-                                    echo "<div class='alert alert-danger'Order Unsuccessful</div>";
-                                }
-                            } else {
-                                echo "<div class='alert alert-danger'>Cannot choose the same product</div>";
-                            }
-                        }
+                        //send data to 'order_details' table in myphp
+                        $query = "INSERT INTO order_details SET product_id=:product_id, quantity=:quantity,order_id=:order_id";
+                        $stmt = $con->prepare($query);
+                        //product & quantity is array, [0,1,2]
+                        // user key and link to database's product_id
+                        $stmt->bindParam(':product_id', $product_id[$i]);
+                        $stmt->bindParam(':quantity', $quantity[$i]);
+                        $stmt->bindParam(':order_id', $order_id);
+                        $stmt->execute();
                     }
+                    echo "<div class='alert alert-success'>Order Successful.</div>";
                 }
+            } else {
+                echo "<div class='alert alert-danger'>.$err_msg.</div>";
             }
         }
+
+
         ?>
 
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
