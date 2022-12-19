@@ -8,6 +8,9 @@
                 <a class="nav-link" href="create_new_order.php">Create NewOrder</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="order_read.php">Read Order</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="product_create.php">Create Product</a>
             </li>
             <li class="nav-item">

@@ -19,7 +19,7 @@ include 'session.php';
     <!-- container -->
     <div class="container">
         <div class="page-header">
-            <h1>Read Customer</h1>
+            <h1>Read Order</h1>
         </div>
 
 
@@ -35,11 +35,12 @@ include 'session.php';
         // if it was redirected from delete.php
 
         if ($action == 'deleted') {
+
             echo "<div class='alert alert-success'>Record was deleted.</div>";
         }
 
         // select all data
-        $query = "SELECT customer_id, username, firstname, lastname, gender, dateofbirth FROM customer ORDER BY customer_id DESC";
+        $query = "SELECT order_id, customer_id, order_date, total_amount FROM order_summary ORDER BY order_id DESC";
         $stmt = $con->prepare($query);
         $stmt->execute();
 
@@ -47,7 +48,7 @@ include 'session.php';
         $num = $stmt->rowCount();
 
         // link to create record form
-        echo "<a href='customer_create.php' class='btn btn-primary m-b-1em mb-3'>Create New Customer</a>";
+        echo "<a href='customer_new_order.php' class='btn btn-primary m-b-1em mb-3'>Create New Order</a>";
 
         //check if more than 0 record found
         if ($num > 0) {
@@ -57,13 +58,10 @@ include 'session.php';
 
             //creating our table heading
             echo "<tr>";
+            echo "<th>Order ID</th>";
             echo "<th>Customer ID</th>";
-            echo "<th>Username</th>";
-            echo "<th>First Name</th>";
-            echo "<th>Last Name</th>";
-            echo "<th>Gender</th>";
-            echo "<th>Date of Birth</th>";
-            echo "<th>Action</th>";
+            echo "<th>Order Date</th>";
+            echo "<th>Total Amount</th>";
             echo "</tr>";
 
             // table body will be here
@@ -74,21 +72,19 @@ include 'session.php';
                 extract($row);
                 // creating new table row per record
                 echo "<tr>";
+                echo "<td>{$order_id}</td>";
                 echo "<td>{$customer_id}</td>";
-                echo "<td>{$username}</td>";
-                echo "<td>{$firstname}</td>";
-                echo "<td>{$lastname}</td>";
-                echo "<td>{$gender}</td>";
-                echo "<td>{$dateofbirth}</td>";
+                echo "<td>{$order_date}</td>";
+                echo "<td>{$total_amount}</td>";
                 echo "<td>";
                 // read one record
-                echo "<a href='customer_read_one.php?customer_id={$customer_id}' class='btn btn-info m-r-1em mx-2'>Read</a>";
+                echo "<a href='order_read_one.php?order_id={$order_id}' class='btn btn-info m-r-1em mx-2'>Read</a>";
+
+                /*  // we will use this links on next part of this post
+                echo "<a href='product_update.php?id={$id}' class='btn btn-primary m-r-1em mx-2'>Edit</a>"; */
 
                 // we will use this links on next part of this post
-                echo "<a href='customer_update.php?customer_id={$customer_id}' class='btn btn-primary m-r-1em mx-2'>Edit</a>";
-
-                // we will use this links on next part of this post
-                echo "<a href='#' onclick='delete_user({$customer_id});'  class='btn btn-danger mx-2'>Delete</a>";
+                echo "<a href='#' onclick='delete_user({$order_id});'  class='btn btn-danger mx-2'>Delete</a>";
                 echo "</td>";
                 echo "</tr>";
             }
@@ -112,7 +108,7 @@ include 'session.php';
     <script type='text/javascript'>
         // confirm record deletion
 
-        function delete_user(customer_id) {
+        function delete_user(order_id) {
 
             var answer = confirm('Are you sure?');
 
@@ -122,7 +118,7 @@ include 'session.php';
 
                 // pass the id to delete.php and execute the delete query
                 window.location =
-                    'customer_delete.php?customer_id=' + customer_id;
+                    'order_delete.php?id=' + order_id;
 
             }
 
