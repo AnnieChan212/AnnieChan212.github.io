@@ -72,7 +72,6 @@ include 'session.php';
                 }
             }
 
-
             if (empty($err_msg)) {
                 $total_amount = 0;
 
@@ -82,15 +81,17 @@ include 'session.php';
                     $stmt = $con->prepare($query);
                     $stmt->bindParam(':id', $product_id[$x]);
                     $stmt->execute();
-                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                    $num = $stmt->rowCount();
 
-                    //if database pro price is 0/no promo, price = row price
-                    if ($row['promotion_price'] == 0) {
-                        $price = $row['price'];
-                    } else {
-                        $price = $row['promotion_price'];
+                    if ($num > 0) {
+                        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                        //if database pro price is 0/no promo, price = row price
+                        if ($row['promotion_price'] == 0) {
+                            $price = $row['price'];
+                        } else {
+                            $price = $row['promotion_price'];
+                        }
                     }
-
                     //combine prvious total_amount with new ones, loop (3 times)
                     $total_amount = $total_amount + ((float)$price * (int)$quantity[$x]);
                 }
@@ -118,11 +119,14 @@ include 'session.php';
                         $stmt->bindParam(':id', $product_id[$i]);
                         $stmt->execute();
                         $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                        $num = $stmt->rowCount();
 
-                        if ($row['promotion_price'] == 0) {
-                            $price = $row['price'];
-                        } else {
-                            $price = $row['promotion_price'];
+                        if ($num > 0) {
+                            if ($row['promotion_price'] == 0) {
+                                $price = $row['price'];
+                            } else {
+                                $price = $row['promotion_price'];
+                            }
                         }
                         $price_each = ((float)$price * (int)$quantity[$i]);
 
@@ -143,8 +147,6 @@ include 'session.php';
                 echo "<div class='alert alert-danger'>.$err_msg.</div>";
             }
         }
-
-
         ?>
 
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">

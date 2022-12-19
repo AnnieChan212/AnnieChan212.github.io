@@ -35,9 +35,12 @@ include 'session.php';
         // if it was redirected from delete.php
 
         if ($action == 'deleted') {
-
             echo "<div class='alert alert-success'>Record was deleted.</div>";
         }
+        if ($action == 'failed') {
+            echo "<div class='alert alert-danger'>Record cannot delete due have Order.</div>";
+        }
+
 
         // select all data
         $query = "SELECT id, name, description, price FROM products ORDER BY id DESC";

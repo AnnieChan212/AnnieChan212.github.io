@@ -48,7 +48,7 @@ include 'session.php';
         $num = $stmt->rowCount();
 
         // link to create record form
-        echo "<a href='customer_new_order.php' class='btn btn-primary m-b-1em mb-3'>Create New Order</a>";
+        echo "<a href='create_new_order.php' class='btn btn-primary m-b-1em mb-3'>Create New Order</a>";
 
         //check if more than 0 record found
         if ($num > 0) {
@@ -62,6 +62,7 @@ include 'session.php';
             echo "<th>Customer ID</th>";
             echo "<th>Order Date</th>";
             echo "<th>Total Amount</th>";
+            echo "<th>Action</th>";
             echo "</tr>";
 
             // table body will be here
@@ -118,7 +119,7 @@ include 'session.php';
 
                 // pass the id to delete.php and execute the delete query
                 window.location =
-                    'order_delete.php?id=' + order_id;
+                    'order_delete.php?order_id=' + order_id;
 
             }
 
