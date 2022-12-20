@@ -28,11 +28,11 @@ include 'session.php';
 
         $flag = false;
 
-        if (isset($_GET["action"])) {
+        /* if (isset($_GET["action"])) {
             if ($_GET["action"] == "success") {
                 echo "<div class='alert alert-success'>Record was saved.</div>";
             }
-        }
+        } */
 
         if ($_POST) {
             // include database connection
@@ -134,7 +134,7 @@ include 'session.php';
                     $stmt->bindParam(':registration_date_time', $registration_date_time);
                     // Execute the query
                     if ($stmt->execute()) {
-                        header("Location: http://localhost/portfolio/onlineshop/customer_create.php?action=success");
+                        header("Location: http://localhost/portfolio/onlineshop/customer_read.php?action=successful");
                     } else {
                         echo "<div class='alert alert-danger'>Unable to save record.</div>";
                         //echo $password;

@@ -38,9 +38,13 @@ include 'session.php';
 
             echo "<div class='alert alert-success'>Record was deleted.</div>";
         }
+        if ($action == 'successful') {
+
+            echo "<div class='alert alert-success'>Record was saved.</div>";
+        }
 
         // select all data
-        $query = "SELECT order_id, customer_id, order_date, total_amount FROM order_summary ORDER BY order_id DESC";
+        $query = "SELECT o.order_id, o.customer_id, o.order_date, o.total_amount, c.firstname, c.lastname FROM order_summary o INNER JOIN customer c ON c.customer_id = o.customer_id ORDER BY order_id DESC";
         $stmt = $con->prepare($query);
         $stmt->execute();
 
@@ -60,6 +64,8 @@ include 'session.php';
             echo "<tr>";
             echo "<th>Order ID</th>";
             echo "<th>Customer ID</th>";
+            echo "<th>First Name</th>";
+            echo "<th>Last Name</th>";
             echo "<th>Order Date</th>";
             echo "<th>Total Amount</th>";
             echo "<th>Action</th>";
@@ -75,8 +81,11 @@ include 'session.php';
                 echo "<tr>";
                 echo "<td>{$order_id}</td>";
                 echo "<td>{$customer_id}</td>";
+                echo "<td>{$firstname}</td>";
+                echo "<td>{$lastname}</td>";
                 echo "<td>{$order_date}</td>";
-                echo "<td>{$total_amount}</td>";
+                //echo "<td>{$total_amount}</td>";
+                echo "<td class= \"text-end\" > RM " . number_format((float)$total_amount, 2, '.', '') . "</td>";
                 echo "<td>";
                 // read one record
                 echo "<a href='order_read_one.php?order_id={$order_id}' class='btn btn-info m-r-1em mx-2'>Read</a>";

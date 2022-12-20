@@ -40,6 +40,9 @@ include 'session.php';
         if ($action == 'failed') {
             echo "<div class='alert alert-danger'>Record cannot delete due User have Order.</div>";
         }
+        if ($action == 'successful') {
+            echo "<div class='alert alert-success'>Customer create successful.</div>";
+        }
 
         // select all data
         $query = "SELECT customer_id, username, firstname, lastname, gender, dateofbirth FROM customer ORDER BY customer_id DESC";

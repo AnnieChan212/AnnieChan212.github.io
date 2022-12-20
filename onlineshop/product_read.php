@@ -40,6 +40,9 @@ include 'session.php';
         if ($action == 'failed') {
             echo "<div class='alert alert-danger'>Record cannot delete due have Order.</div>";
         }
+        if ($action == 'successful') {
+            echo "<div class='alert alert-success'>Product create successful.</div>";
+        }
 
 
         // select all data
@@ -79,7 +82,8 @@ include 'session.php';
                 echo "<td>{$id}</td>";
                 echo "<td>{$name}</td>";
                 echo "<td>{$description}</td>";
-                echo "<td>{$price}</td>";
+                //echo "<td>{$price}</td>";
+                echo "<td class= \"text-end\" >RM " . number_format((float)$price, 2, '.', '') . "</td>";
                 echo "<td>";
                 // read one record
                 echo "<a href='product_read_one.php?id={$id}' class='btn btn-info m-r-1em mx-2'>Read</a>";

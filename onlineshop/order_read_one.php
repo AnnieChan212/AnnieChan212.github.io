@@ -19,7 +19,7 @@ include 'session.php';
     <!-- container -->
     <div class="container">
         <div class="page-header">
-            <h1>Read Order</h1>
+            <h1>Order Details</h1>
         </div>
 
 
@@ -34,39 +34,38 @@ include 'session.php';
         include 'config/database.php';
 
         // read current record's data
+        // prepare select query
         try {
 
-            // prepare select query
-            $query = "SELECT order_detail_id, order_id, product_id, quantity, price_each FROM order_details WHERE order_id = ? LIMIT 0,1";
+
+            $query = "SELECT s.order_id,order_detail_id,o.product_id,quantity,price_each,p.price,p.promotion_price,p.name,s.total_amount
+            FROM order_details o 
+            INNER JOIN products p 
+            ON o.product_id = p.id
+            INNER JOIN order_summary s
+            ON o.order_id = s.order_id
+            WHERE o.order_id = ?";
             $stmt = $con->prepare($query);
             // this is the first question mark
             $stmt->bindParam(1, $order_id);
             // execute our query
             $stmt->execute();
-            // store retrieved row to a variable
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $num = $stmt->rowCount();
 
-            // values to fill up our form
-            $order_detail_id = $row['order_detail_id'];
-            $order_id = $row['order_id'];
-            $product_id = $row['product_id'];
-            $quantity = $row['quantity'];
-            $price_each = $row['price_each'];
 
-            // prepare select query
-            $query = "SELECT total_amount FROM order_summary ORDER BY order_id DESC";
-            $stmt = $con->prepare($query);
-            // this is the first question mark
-            $stmt->bindParam(1, $order_id);
-            // execute our query
-            $stmt->execute();
-            // store retrieved row to a variable
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            /* // prepare select query
+        $query = "SELECT total_amount FROM order_summary ORDER BY order_id DESC";
+        $stmt = $con->prepare($query);
+        // this is the first question mark
+        $stmt->bindParam(1, $order_id);
+        // execute our query
+        $stmt->execute();
+        // store retrieved row to a variable
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            // values to fill up our form
-            $total_amount = $row['total_amount'];
+        // values to fill up our form
+        */
         }
-
         // show error
         catch (PDOException $exception) {
             die('ERROR: ' . $exception->getMessage());
@@ -79,38 +78,43 @@ include 'session.php';
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">Order Details ID</th>
                     <th scope="col">Product ID</th>
+                    <th scope="col">Product Name</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Price</th>
+                    <th scope="col">Price Each</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row"><?php echo htmlspecialchars($order_detail_id, ENT_QUOTES);  ?></th>
-                    <td><?php echo htmlspecialchars($product_id, ENT_QUOTES);  ?></td>
-                    <td><?php echo htmlspecialchars($quantity, ENT_QUOTES);  ?></td>
-                    <td><?php echo htmlspecialchars($price_each, ENT_QUOTES);  ?></td>
-                </tr>
-                <tr>
-                    <th scope="row"><?php echo htmlspecialchars($order_detail_id, ENT_QUOTES);  ?></th>
-                    <td><?php echo htmlspecialchars($product_id, ENT_QUOTES);  ?></td>
-                    <td><?php echo htmlspecialchars($quantity, ENT_QUOTES);  ?></td>
-                    <td><?php echo htmlspecialchars($price_each, ENT_QUOTES);  ?></td>
-                </tr>
-                <tr>
-                    <th scope="row"><?php echo htmlspecialchars($order_detail_id, ENT_QUOTES);  ?></th>
-                    <td><?php echo htmlspecialchars($product_id, ENT_QUOTES);  ?></td>
-                    <td><?php echo htmlspecialchars($quantity, ENT_QUOTES);  ?></td>
-                    <td><?php echo htmlspecialchars($price_each, ENT_QUOTES);  ?></td>
-                </tr>
+                <?php
+                if ($num > 0) {
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                        extract($row); ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($product_id, ENT_QUOTES);  ?></th>
+                            <td><?php echo htmlspecialchars($name, ENT_QUOTES);  ?></th>
+                            <td><?php echo htmlspecialchars($quantity, ENT_QUOTES);  ?></td>
+                            <td><?php echo number_format((float)htmlspecialchars($price, ENT_QUOTES), 2, '.', ''); ?></td>
+                            <td><?php echo number_format((float)htmlspecialchars($price_each, ENT_QUOTES), 2, '.', ''); ?></td>
+
+                        </tr>
+                <?php }
+                } ?>
                 <tr>
                     <th scope="row">Total Amount</th>
-                    <td colspan="2"></td>
-                    <td><?php echo htmlspecialchars($total_amount, ENT_QUOTES);  ?></td>
+                    <td colspan="3"></td>
+                    <td><?php echo "<b>" . htmlspecialchars($total_amount, ENT_QUOTES) . "</b>"; ?></td>
                 </tr>
             </tbody>
         </table>
+        <div>
+            <tr>
+                <td></td>
+                <td>
+                    <a href='order_read.php' class='btn btn-danger'>Back to read Order</a>
+                </td>
+            </tr>
+        </div>
 
 
 

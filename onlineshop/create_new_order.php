@@ -40,6 +40,7 @@ include 'session.php';
         <?php
         // include database connection
         include 'config/database.php';
+        date_default_timezone_set("Asia/Kuala_Lumpur");
         //一个标准，detect error 有错误的话就不执行
         $err_msg = "";
 
@@ -60,14 +61,17 @@ include 'session.php';
             //count这个var 不管你有多少个product_id,它会auto帮你算
             //record product_id（有多少个就loop几次）这里只有3个所以loop 3time into order_summary & details tables
             for ($i = 0; $i < count($product_id); $i++) {
-
-                // if product_id 没有留空才会process next step, ! <means 没有
-                if ($product_id[$i] != "") {
-                    if ($quantity[$i] == "") {
-                        $err_msg .= "<div class='alert alert-danger'>Choose Product $i with quatity</div>";
-                    }
-                    if ($value[$product_id[$i]] > 1) {
-                        $err_msg .= "<div class='alert alert-danger'>No Duplicate Product $i allowed</div>";
+                if ($i == 0) {
+                    if ($product_id[$i] == "" or $quantity[$i] == "")
+                        $err_msg .= "<div class='alert alert-danger'>Please choose Product</div>";
+                } else {
+                    if ($product_id[$i] != "") {
+                        if ($quantity[$i] == "") {
+                            $err_msg .= "<div class='alert alert-danger'>Choose Product $i with quatity</div>";
+                        }
+                        if ($value[$product_id[$i]] > 1) {
+                            $err_msg .= "<div class='alert alert-danger'>No Duplicate Product $i allowed</div>";
+                        }
                     }
                 }
             }
@@ -82,6 +86,7 @@ include 'session.php';
                     $stmt->bindParam(':id', $product_id[$x]);
                     $stmt->execute();
                     $num = $stmt->rowCount();
+                    $price = 0;
 
                     if ($num > 0) {
                         $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -97,7 +102,7 @@ include 'session.php';
                 }
                 //echo $total_amount;
 
-                $order_date = date('Y-m-d');
+                $order_date = date('Y-m-d H:i:s');
                 //send data to 'order_summary' table in myphp
                 $query = "INSERT INTO order_summary SET customer_id=:customer_id, order_date=:order_date, total_amount=:total_amount";
                 $stmt = $con->prepare($query);
@@ -141,7 +146,7 @@ include 'session.php';
                         $stmt->bindParam(':price_each', $price_each);
                         $stmt->execute();
                     }
-                    echo "<div class='alert alert-success'>Order Successful.</div>";
+                    header("Location: http://localhost/portfolio/onlineshop/order_read.php?action=successful");
                 }
             } else {
                 echo "<div class='alert alert-danger'>.$err_msg.</div>";
@@ -184,47 +189,66 @@ include 'session.php';
                 </div>
 
                 <?php
-                //forloop, for 3 product
-                for ($x = 0; $x < 3; $x++) {
-                    // select product
-                    $query = "SELECT id, name, price, promotion_price FROM products ORDER BY id DESC";
-                    $stmt = $con->prepare($query);
-                    $stmt->execute();
-                    // this is how to get number of rows returned
-                    $num = $stmt->rowCount();
+                $query = "SELECT id, name, price, promotion_price FROM products ORDER BY id DESC";
+                $stmt = $con->prepare($query);
+                $stmt->execute();
+                // this is how to get number of rows returned
+                $num = $stmt->rowCount();
                 ?>
+                <tr>
+                    <th>Products</th>
+                    <th>Quantity</th>
+                </tr>
+                <tr class="pRow">
+                    <td>
+                        <select class="form-select rounded" name="product_id[]">
+                            <option value="" selected>Choose your product </option>
+                            <?php if ($num > 0) {
+                                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                    extract($row); ?>
+                                    <option value="<?php echo $id; ?>"><?php echo htmlspecialchars($name, ENT_QUOTES);
+                                                                        if ($promotion_price == 0) {
+                                                                            echo " (RM$price)";
+                                                                        } else {
+                                                                            echo " (RM$promotion_price)";
+                                                                        } ?></option>
+                            <?php }
+                            } ?>
+                        </select>
 
-                    <div class="row">
-                        <label class="order-form-label">Product</label>
-
-                        <div class="col-3 mb-2 mt-2">
-                            <select class="form-select bg-primary" name="product_id[]" aria-label="form-select-lg example">
-                                <option value='' selected>Choose Product</option>
-                                <?php
-                                if ($num > 0) {
-                                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                        extract($row); ?>
-                                        <option value="<?php echo $id; ?>"><?php echo htmlspecialchars($name, ENT_QUOTES);
-                                                                            if ($promotion_price == 0) {
-                                                                                echo " (RM$price)";
-                                                                            } else {
-                                                                                echo " (RM$promotion_price)";
-                                                                            } ?></option>
-                                <?php }
-                                }
-                                ?>
-
-                            </select>
-                        </div>
-
-                        <input class="col-1 mb-2 mt-2" type="number" id="quantity[]" name="quantity[]" min=1>
-                    </div>
-                <?php } ?>
-
-
+                    </td>
+                    <td>
+                        <input type='number' name='quantity[]' class='form-control' min=1 />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="button" value="Add More" class=" btn btn-warning add_one" />
+                        <input type="button" value="Delete" class="btn btn-danger delete_one" />
+                    </td>
+                    <td>
+                        <input type='submit' value='Submit' class='btn btn-success' />
+                    </td>
+                </tr>
             </table>
-            <input type="submit" class="btn btn-danger" />
         </form>
+        <script>
+            document.addEventListener('click', function(event) {
+                if (event.target.matches('.add_one')) {
+                    var element = document.querySelector('.pRow');
+                    var clone = element.cloneNode(true);
+                    element.after(clone);
+                }
+                if (event.target.matches('.delete_one')) {
+                    var total = document.querySelectorAll('.pRow').length;
+                    if (total > 1) {
+                        var element = document.querySelector('.pRow');
+                        element.remove(element);
+                    }
+                }
+            }, false);
+        </script>
+
 
     </div> <!-- end .container -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
