@@ -82,7 +82,7 @@ include 'session.php';
                     <th scope="col">Product Name</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Price</th>
-                    <th scope="col">Price Each</th>
+                    <th scope="col">Amount</th>
                 </tr>
             </thead>
             <tbody>
