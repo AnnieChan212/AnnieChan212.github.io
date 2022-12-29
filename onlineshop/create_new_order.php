@@ -226,7 +226,7 @@ include 'session.php';
                         <input type="button" value="Add More" class=" btn btn-warning add_one" />
                         <input type="button" value="Delete" class="btn btn-danger delete_one" />
                         <br>
-                        <a href='customer_read.php' class='btn mt-2 btn-success'>Back to Read Order</a>
+                        <a href='order_read.php' class='btn mt-2 btn-success'>Back to Read Order</a>
                     </td>
                     <td>
                         <input type='submit' value='Submit' class='btn btn-success' />

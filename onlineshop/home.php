@@ -106,27 +106,29 @@ include 'session.php';
                 <div class="card">
                     <!-- <img src="..." class="card-img-top" alt="..."> -->
                     <div class="card-body">
-                        <h5 class="card-title">Top 5 Products</h5>
+                        <h5 class="card-title">Higher Purchased Amount</h5>
                         <p class="card-text">
                             <?php
-                            $query = "SELECT o.product_id, SUM(o.quantity) as totalquantity ,p.name as productname FROM order_details o 
-                            INNER JOIN products p 
-                            ON o.product_id = p.id 
-                            GROUP BY o.product_id 
-                            ORDER BY totalquantity DESC LIMIT 5";
+                            //Higher amount
+                            $query = "SELECT c.username, c.firstname, c.lastname, s.total_amount
+                            FROM order_summary s
+                            INNER JOIN customer c 
+                            ON c.customer_id = s.customer_id
+                            ORDER BY total_amount DESC";
                             $stmt = $con->prepare($query);
                             $stmt->execute();
-                            // this is how to get number of rows returned
-                            $num = $stmt->rowCount();
+                            $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
+                            $username = $row['username'];
+                            $firstname = $row['firstname'];
+                            $lastname = $row['lastname'];
+                            $total_amount = $row['total_amount'];
 
-                            if ($num > 0) {
-                                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                    extract($row);
-
-                                    echo $productname . ' ' . "<b>$totalquantity </b>" . "<br>";
-                                }
-                            }
+                            echo "Username: " . $username;
+                            echo "<br>";
+                            echo "Name: " . $firstname . ' ' . $lastname;
+                            echo "<br>";
+                            echo "Total Amount: " . "<b>RM </b>" . "<b>$total_amount </b>";
                             ?>
                         </p>
                     </div>
@@ -160,44 +162,43 @@ include 'session.php';
                             echo "Total Amount: " . "<b>RM </b>" . "<b>$total_amount </b>";
                             echo "<br>";
                             echo "Transaction Date: " . $order_date;
-
                             ?>
                         </p>
                     </div>
                 </div>
             </div>
+
             <div class="col">
                 <div class="card">
                     <!-- <img src="..." class="card-img-top" alt="..."> -->
                     <div class="card-body">
-                        <h5 class="card-title">Higher Purchased Amount</h5>
+                        <h5 class="card-title">Top 5 Products</h5>
                         <p class="card-text">
                             <?php
-                            //Higher amount
-                            $query = "SELECT c.username, c.firstname, c.lastname, s.total_amount
-                            FROM order_summary s
-                            INNER JOIN customer c 
-                            ON c.customer_id = s.customer_id
-                            ORDER BY total_amount DESC";
+                            $query = "SELECT o.product_id, SUM(o.quantity) as totalquantity ,p.name as productname FROM order_details o 
+                            INNER JOIN products p 
+                            ON o.product_id = p.id 
+                            GROUP BY o.product_id 
+                            ORDER BY totalquantity DESC LIMIT 5";
                             $stmt = $con->prepare($query);
                             $stmt->execute();
-                            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                            // this is how to get number of rows returned
+                            $num = $stmt->rowCount();
 
-                            $username = $row['username'];
-                            $firstname = $row['firstname'];
-                            $lastname = $row['lastname'];
-                            $total_amount = $row['total_amount'];
 
-                            echo "Username: " . $username;
-                            echo "<br>";
-                            echo "Name: " . $firstname . ' ' . $lastname;
-                            echo "<br>";
-                            echo "Total Amount: " . "<b>RM </b>" . "<b>$total_amount </b>";
+                            if ($num > 0) {
+                                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                    extract($row);
+
+                                    echo $productname . ' ' . "<b>$totalquantity </b>" . "<br>";
+                                }
+                            }
                             ?>
                         </p>
                     </div>
                 </div>
             </div>
+
             <div class="col">
                 <div class="card">
                     <!-- <img src="..." class="card-img-top" alt="..."> -->
