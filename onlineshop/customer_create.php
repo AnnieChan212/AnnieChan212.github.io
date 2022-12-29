@@ -37,6 +37,7 @@ include 'session.php';
         if ($_POST) {
             // include database connection
             include 'config/database.php';
+            date_default_timezone_set("Asia/Kuala_Lumpur");
             try {
                 // posted values
                 $username = htmlspecialchars(strip_tags($_POST['username']));
@@ -139,9 +140,9 @@ include 'session.php';
                         echo "<div class='alert alert-danger'>Unable to save record.</div>";
                         //echo $password;
                     }
-                } else {
+                } /* else {
                     echo "<div class='alert alert-danger'>Makesure is correct</div>";
-                }
+                } */
             }
             // show error
             catch (PDOException $exception) {

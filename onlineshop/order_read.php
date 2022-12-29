@@ -19,7 +19,7 @@ include 'session.php';
     <!-- container -->
     <div class="container">
         <div class="page-header">
-            <h1>Read Order</h1>
+            <h1>Order List</h1>
         </div>
 
 
@@ -36,11 +36,11 @@ include 'session.php';
 
         if ($action == 'deleted') {
 
-            echo "<div class='alert alert-success'>Record was deleted.</div>";
+            echo "<div class='alert alert-success'>Order was deleted.</div>";
         }
         if ($action == 'successful') {
 
-            echo "<div class='alert alert-success'>Record was saved.</div>";
+            echo "<div class='alert alert-success'>Order was created.</div>";
         }
 
         // select all data
@@ -90,8 +90,8 @@ include 'session.php';
                 // read one record
                 echo "<a href='order_read_one.php?order_id={$order_id}' class='btn btn-info m-r-1em mx-2'>Read</a>";
 
-                /*  // we will use this links on next part of this post
-                echo "<a href='product_update.php?id={$id}' class='btn btn-primary m-r-1em mx-2'>Edit</a>"; */
+                // we will use this links on next part of this post
+                echo "<a href='order_update.php?order_id={$order_id}' class='btn btn-primary m-r-1em mx-2'>Edit</a>";
 
                 // we will use this links on next part of this post
                 echo "<a href='#' onclick='delete_user({$order_id});'  class='btn btn-danger mx-2'>Delete</a>";

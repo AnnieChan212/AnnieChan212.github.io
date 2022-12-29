@@ -19,7 +19,7 @@ include 'session.php';
     <!-- container -->
     <div class="container">
         <div class="page-header">
-            <h1>Read Products</h1>
+            <h1>Products List</h1>
         </div>
 
 
@@ -35,7 +35,7 @@ include 'session.php';
         // if it was redirected from delete.php
 
         if ($action == 'deleted') {
-            echo "<div class='alert alert-success'>Record was deleted.</div>";
+            echo "<div class='alert alert-success'>Product was deleted.</div>";
         }
         if ($action == 'failed') {
             echo "<div class='alert alert-danger'>Record cannot delete due have Order.</div>";
@@ -46,7 +46,7 @@ include 'session.php';
 
 
         // select all data
-        $query = "SELECT id, name, description, price FROM products ORDER BY id DESC";
+        $query = "SELECT id, name, description, price, promotion_price FROM products ORDER BY id DESC";
         $stmt = $con->prepare($query);
         $stmt->execute();
 
@@ -68,6 +68,7 @@ include 'session.php';
             echo "<th>Name</th>";
             echo "<th>Description</th>";
             echo "<th>Price</th>";
+            echo "<th>Promotion Price</th>";
             echo "<th>Action</th>";
             echo "</tr>";
 
@@ -84,6 +85,7 @@ include 'session.php';
                 echo "<td>{$description}</td>";
                 //echo "<td>{$price}</td>";
                 echo "<td class= \"text-end\" >RM " . number_format((float)$price, 2, '.', '') . "</td>";
+                echo "<td class= \"text-end\" >RM " . number_format((float)$promotion_price, 2, '.', '') . "</td>";
                 echo "<td>";
                 // read one record
                 echo "<a href='product_read_one.php?id={$id}' class='btn btn-info m-r-1em mx-2'>Read</a>";

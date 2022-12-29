@@ -31,8 +31,9 @@ include 'session.php';
         if ($_POST) {
             // include database connection
             include 'config/database.php';
+            date_default_timezone_set("Asia/Kuala_Lumpur");
             try {
-                // posted values
+                // posted values user write's
                 $name = htmlspecialchars(strip_tags($_POST['name']));
                 $description = htmlspecialchars(strip_tags($_POST['description']));
                 $price = htmlspecialchars(strip_tags($_POST['price']));
@@ -40,40 +41,53 @@ include 'session.php';
                 $manufacture_date = htmlspecialchars(strip_tags($_POST['manufacture_date']));
                 $expired_date = htmlspecialchars(strip_tags($_POST['expired_date']));
 
-                if (empty($name)) {
+                if (empty($_POST['name'])) {
                     echo "<div class='alert alert-danger'>Please insert the Name.</div>";
                     $flag = true;
+                } else {
+                    $name = htmlspecialchars(strip_tags($_POST['name']));
                 }
-                if (empty($description)) {
-                    //echo "<div class='alert alert-danger'>Please insert the Description.</div>";
-                    $flag = true;
+
+                if (empty($_POST['description'])) {
+                    //echo "<div class='alert alert-danger'>Please insert D.</div>";
+                    $description = htmlspecialchars(strip_tags($_POST['description']));
                 }
-                if (empty($price)) {
+
+                if (empty($_POST['price'])) {
                     echo "<div class='alert alert-danger'>Please insert the Price.</div>";
                     $flag = true;
-                }
-                if (empty($promotion_price)) {
-                    //echo "<div class='alert alert-danger'>Please insert the Promotion Price.</div>";
-                    $flag = true;
-                }
-                if (empty($manufacture_date)) {
-                    //echo "<div class='alert alert-danger'>Please insert the Manufacture Date.</div>";
-                    $flag = true;
-                }
-                if (empty($expired_date)) {
-                    echo "<div class='alert alert-danger'>Please insert the Expired Date.</div>";
-                    $flag = true;
+                } else {
+                    $price = htmlspecialchars(strip_tags($_POST['price']));
                 }
 
-                if (($promotion_price) > ($price)) {
+                if (empty($_POST['promotion_price'])) {
+                    $promotion_price = null;
+                    //echo "<div class='alert alert-danger'>Please insert the Promotion Price.</div>";
+                } else if (($_POST['promotion_price']) > ($_POST['price'])) {
                     echo "<div class='alert alert-danger'>Promotion price must cheaper than Original Price</div>";
                     $flag = true;
+                } else {
+                    $promotion_price = number_format((float)htmlspecialchars(strip_tags($_POST['promotion_price']), 2, '.', ''));
                 }
 
-                if (($expired_date) < ($manufacture_date)) {
+                if (empty($_POST['manufacture_date'])) {
+                    echo "<div class='alert alert-danger'>Please insert the Manufacture Date.</div>";
+                    $flag = true;
+                } else {
+                    $manufacture_date = htmlspecialchars(strip_tags($_POST['manufacture_date']));
+                }
+
+                if (empty($_POST['expired_date'])) {
+                    $expired_date = null;
+                    //echo "<div class='alert alert-danger'>Please insert the Expired Date.</div>";
+                } else if (($_POST['expired_date']) < ($_POST['manufacture_date'])) {
                     echo "<div class='alert alert-danger'>Expired date must late than manufacture date</div>";
                     $flag = true;
                 }
+
+                //print_r($_POST);
+
+
 
                 if ($flag == false) {
                     // insert query
@@ -93,12 +107,13 @@ include 'session.php';
                     // Execute the query
                     if ($stmt->execute()) {
                         header("Location: http://localhost/portfolio/onlineshop/product_read.php?action=successful");
+                        //echo "<div class='alert alert-danger'>Unable.</div>";
                     } else {
                         echo "<div class='alert alert-danger'>Unable to save record.</div>";
                     }
-                } else {
+                } /* else {
                     echo "<div class='alert alert-danger'>Makesure is correct</div>";
-                }
+                } */
             }
             // show error
             catch (PDOException $exception) {
@@ -115,27 +130,39 @@ include 'session.php';
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Name</td>
-                    <td><input type='text' name='name' class='form-control' value='<?php if (isset($_POST['name'])) echo $_POST['name']; ?>' /></td>
+                    <td><input type='text' name='name' class='form-control' value='<?php if (isset($_POST['name'])) {
+                                                                                        echo $_POST['name'];
+                                                                                    } ?>' /></td>
                 </tr>
                 <tr>
                     <td>Description</td>
-                    <td><textarea name='description' class='form-control' rows="4" cols="50"><?php if (isset($_POST['description'])) echo $_POST['description']; ?></textarea></td>
+                    <td><textarea name='description' class='form-control' rows="4" cols="50"><?php if (isset($_POST['description'])) {
+                                                                                                    echo $_POST['description'];
+                                                                                                } ?></textarea></td>
                 </tr>
                 <tr>
                     <td>Price</td>
-                    <td><input type='text' name='price' class='form-control' value='<?php if (isset($_POST['price'])) echo $_POST['price']; ?>' /></td>
+                    <td><input type='text' name='price' class='form-control' value='<?php if (isset($_POST['price'])) {
+                                                                                        echo $_POST['price'];
+                                                                                    } ?>' /></td>
                 </tr>
                 <tr>
                     <td>Promotion Price</td>
-                    <td><input type='text' name='promotion_price' class='form-control' value='<?php if (isset($_POST['promotion_price'])) echo $_POST['promotion_price']; ?>' /></td>
+                    <td><input type='text' name='promotion_price' class='form-control' value='<?php if (isset($_POST['promotion_price'])) {
+                                                                                                    echo $_POST['promotion_price'];
+                                                                                                } ?>' /></td>
                 </tr>
                 <tr>
                     <td>Manufacture Date</td>
-                    <td><input type='date' name='manufacture_date' class='form-control' value='<?php if (isset($_POST['manufacture_date'])) echo $_POST['manufacture_date']; ?>' /></td>
+                    <td><input type='date' name='manufacture_date' class='form-control' value='<?php if (isset($_POST['manufacture_date'])) {
+                                                                                                    echo $_POST['manufacture_date'];
+                                                                                                } ?>' /></td>
                 </tr>
                 <tr>
                     <td>Expired Date</td>
-                    <td><input type='date' name='expired_date' class='form-control' value='<?php if (isset($_POST['expired_date'])) echo $_POST['expired_date']; ?>' /></td>
+                    <td><input type='date' name='expired_date' class='form-control' value='<?php if (isset($_POST['expired_date'])) {
+                                                                                                echo $_POST['expired_date'];
+                                                                                            } ?>' /></td>
                 </tr>
                 <tr>
                     <td></td>

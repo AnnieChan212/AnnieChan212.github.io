@@ -37,13 +37,14 @@ include 'session.php';
         // prepare select query
         try {
 
-
-            $query = "SELECT s.order_id,order_detail_id,o.product_id,quantity,price_each,p.price,p.promotion_price,p.name,s.total_amount
+            $query = "SELECT s.order_id,order_detail_id,o.product_id,quantity,price_each,p.price,p.promotion_price,p.name,s.total_amount, c.firstname, c.lastname, s.order_date, c.customer_id
             FROM order_details o 
             INNER JOIN products p 
             ON o.product_id = p.id
             INNER JOIN order_summary s
             ON o.order_id = s.order_id
+            INNER JOIN customer c
+            ON c.customer_id = s.customer_id
             WHERE o.order_id = ?";
             $stmt = $con->prepare($query);
             // this is the first question mark
@@ -51,20 +52,6 @@ include 'session.php';
             // execute our query
             $stmt->execute();
             $num = $stmt->rowCount();
-
-
-            /* // prepare select query
-        $query = "SELECT total_amount FROM order_summary ORDER BY order_id DESC";
-        $stmt = $con->prepare($query);
-        // this is the first question mark
-        $stmt->bindParam(1, $order_id);
-        // execute our query
-        $stmt->execute();
-        // store retrieved row to a variable
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        // values to fill up our form
-        */
         }
         // show error
         catch (PDOException $exception) {
@@ -75,14 +62,16 @@ include 'session.php';
 
         <!-- HTML read one record table will be here -->
         <!--we have our html table here where the record will be displayed-->
-        <table class="table">
+        <table class="table table-hover table-responsive table-bordered">
             <thead>
                 <tr>
-                    <th scope="col">Product ID</th>
-                    <th scope="col">Product Name</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Amount</th>
+                    <!-- <th scope="col">Product ID</th> -->
+                    <th scope="col" class="text-center">Product Name</th>
+                    <th scope="col" class="text-center">Quantity</th>
+                    <th scope="col" class="text-center">Price</th>
+                    <th scope="col" class="text-center">Promotion Price</th>
+                    <th scope="col" class="text-center">Total</th>
+                    <!-- <th scope="col">Amount</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -91,19 +80,28 @@ include 'session.php';
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                         extract($row); ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($product_id, ENT_QUOTES);  ?></th>
-                            <td><?php echo htmlspecialchars($name, ENT_QUOTES);  ?></th>
-                            <td><?php echo htmlspecialchars($quantity, ENT_QUOTES);  ?></td>
-                            <td><?php echo number_format((float)htmlspecialchars($price, ENT_QUOTES), 2, '.', ''); ?></td>
-                            <td><?php echo number_format((float)htmlspecialchars($price_each, ENT_QUOTES), 2, '.', ''); ?></td>
-
+                            <td>
+                                <?php echo htmlspecialchars($name, ENT_QUOTES);  ?></td>
+                            <td class="text-center">
+                                <?php echo htmlspecialchars($quantity, ENT_QUOTES);  ?></td>
+                            <td class="text-end">
+                                <?php echo number_format((float)htmlspecialchars($price, ENT_QUOTES), 2, '.', ''); ?></td>
+                            <td class="text-end">
+                                <?php echo htmlspecialchars($promotion_price, ENT_QUOTES); ?></td>
+                            <td class="text-end">
+                                <?php echo number_format((float)htmlspecialchars($price_each, ENT_QUOTES), 2, '.', ''); ?></td>
                         </tr>
                 <?php }
+                    echo "<b>Customer ID:</b> $customer_id";
+                    echo "<br>";
+                    echo "<b>Customer Name:</b> $firstname $lastname";
+                    echo "<br>";
+                    echo "<b>Order Date:</b> $order_date";
                 } ?>
                 <tr>
                     <th scope="row">Total Amount</th>
                     <td colspan="3"></td>
-                    <td><?php echo "<b>" . htmlspecialchars($total_amount, ENT_QUOTES) . "</b>"; ?></td>
+                    <?php echo "<td class= \"text-end\" > <b> RM" . number_format((float) $total_amount, 2, '.', '') . "</b></td>"; ?></td>
                 </tr>
             </tbody>
         </table>

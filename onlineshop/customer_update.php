@@ -31,6 +31,10 @@ include 'session.php';
 </head>
 
 <body>
+    <?php
+    include 'menu.php';
+    ?>
+
     <!-- container -->
     <div class="container">
         <div class="page-header">
@@ -51,7 +55,7 @@ include 'session.php';
     // read current record's data
     try {
         // prepare select query
-        $query = "SELECT customer_id, username, password, firstname, lastname, gender, dateofbirth FROM customer WHERE customer_id = ? LIMIT 0,1 ";
+        $query = "SELECT customer_id, username, password, firstname, lastname, gender, dateofbirth, registration_date_time FROM customer WHERE customer_id = ? LIMIT 0,1 ";
         $stmt = $con->prepare($query);
 
         // this is the first question mark
@@ -72,6 +76,7 @@ include 'session.php';
             $lastname = $row['lastname'];
             $gender = $row['gender'];
             $dateofbirth = $row['dateofbirth'];
+            $registration_date_time = $row['registration_date_time'];
         }
     }
 
@@ -248,6 +253,11 @@ include 'session.php';
             <tr>
                 <td>Date of Birth</td>
                 <td><input type='date' name='dateofbirth' value="<?php echo htmlspecialchars($dateofbirth, ENT_QUOTES);  ?>" class='form-control' /></td>
+            </tr>
+
+            <tr>
+                <td>Registration</td>
+                <td><?php echo htmlspecialchars($registration_date_time, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
                 <td></td>

@@ -31,6 +31,11 @@ include 'session.php';
 </head>
 
 <body>
+
+    <?php
+    include 'menu.php';
+    ?>
+
     <!-- container -->
     <div class="container">
         <div class="page-header">

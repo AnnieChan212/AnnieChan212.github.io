@@ -36,7 +36,7 @@ include 'session.php';
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT customer_id, username, firstname, lastname, gender, dateofbirth FROM customer WHERE customer_id = ? LIMIT 0,1";
+            $query = "SELECT customer_id, username, password, firstname, lastname, gender, dateofbirth, registration_date_time FROM customer WHERE customer_id = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
 
             // this is the first question mark
@@ -51,10 +51,12 @@ include 'session.php';
             // values to fill up our form
             $customer_id = $row['customer_id'];
             $username = $row['username'];
+            $password = $row['password'];
             $firstname = $row['firstname'];
             $lastname = $row['lastname'];
             $gender = $row['gender'];
             $dateofbirth = $row['dateofbirth'];
+            $registration_date_time = $row['registration_date_time'];
         }
 
         // show error
@@ -72,6 +74,10 @@ include 'session.php';
                 <td><?php echo htmlspecialchars($username, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
+                <td>Password</td>
+                <td><?php echo htmlspecialchars($password, ENT_QUOTES);  ?></td>
+            </tr>
+            <tr>
                 <td>First Name</td>
                 <td><?php echo htmlspecialchars($firstname, ENT_QUOTES);  ?></td>
             </tr>
@@ -86,6 +92,10 @@ include 'session.php';
             <tr>
                 <td>Date of Birth</td>
                 <td><?php echo htmlspecialchars($dateofbirth, ENT_QUOTES);  ?></td>
+            </tr>
+            <tr>
+                <td>Registration Date</td>
+                <td><?php echo htmlspecialchars($registration_date_time, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
                 <td></td>

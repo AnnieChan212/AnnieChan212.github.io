@@ -19,7 +19,7 @@ include 'session.php';
     <!-- container -->
     <div class="container">
         <div class="page-header">
-            <h1>Read Customer</h1>
+            <h1>Customer List</h1>
         </div>
 
 
@@ -35,7 +35,7 @@ include 'session.php';
         // if it was redirected from delete.php
 
         if ($action == 'deleted') {
-            echo "<div class='alert alert-success'>Record was deleted.</div>";
+            echo "<div class='alert alert-success'>Customer was deleted.</div>";
         }
         if ($action == 'failed') {
             echo "<div class='alert alert-danger'>Record cannot delete due User have Order.</div>";

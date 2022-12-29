@@ -51,6 +51,10 @@ session_start();
             border-top-right-radius: 0;
         }
 
+        .error {
+            color: red;
+        }
+
         @media (min-width: 768px) {
             .bd-placeholder-img-lg {
                 font-size: 3.5rem;
@@ -115,6 +119,9 @@ session_start();
         } else {
             $useErr = "User not found *";
         }
+        if (empty($_POST['username'])) {
+            $useErr = "Username & Password is required";
+        }
     }
     ?>
 
@@ -127,6 +134,7 @@ session_start();
                     echo "<div class='alert alert-danger'>Access Decline.</div>";
                 }
                 ?>
+                <h1 class="h1 mb-3 fw-normal">LITTLAZY SHOP</h1>
                 <h1 class="h3 mb-3 fw-normal">Please Sign In</h1>
 
                 <!--echo error msg-->
@@ -150,7 +158,7 @@ session_start();
 
                 </div>
                 <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-                <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
+                <p class="mt-5 mb-3 text-muted">&copy; 2022</p>
             </form>
         </form>
     </main>
