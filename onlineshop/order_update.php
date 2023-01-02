@@ -30,6 +30,8 @@ include 'session.php';
 
         <?php
         // after submit
+        //$(database) "(user key's)
+        //先去database找看有没有这个id，如果没有就显示id not found, if got then process
         if ($_POST) {
             $product = $_POST["product"];
             $quantity = $_POST["quantity"];

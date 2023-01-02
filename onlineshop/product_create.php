@@ -34,6 +34,8 @@ include 'session.php';
             date_default_timezone_set("Asia/Kuala_Lumpur");
             try {
                 // posted values user write's
+                //coverts to html
+                //var, user write de
                 $name = htmlspecialchars(strip_tags($_POST['name']));
                 $description = htmlspecialchars(strip_tags($_POST['description']));
                 $price = htmlspecialchars(strip_tags($_POST['price']));

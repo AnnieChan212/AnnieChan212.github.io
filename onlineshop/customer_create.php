@@ -40,6 +40,7 @@ include 'session.php';
             date_default_timezone_set("Asia/Kuala_Lumpur");
             try {
                 // posted values
+                //$(database) "(user key's)
                 $username = htmlspecialchars(strip_tags($_POST['username']));
                 $password = htmlspecialchars(strip_tags($_POST['password']));
                 $confirm_password = htmlspecialchars(strip_tags($_POST['confirm_password']));
@@ -105,7 +106,7 @@ include 'session.php';
                 $query = "SELECT username FROM customer WHERE username=:username";
                 // prepare query for execution
                 $stmt = $con->prepare($query);
-                // bind the parameters
+                //把$ user打的id 跟php的:id link在一起. :database & $ is user
                 $stmt->bindParam(':username', $username);
                 // Execute the query
                 $stmt->execute();
@@ -123,6 +124,7 @@ include 'session.php';
                     // prepare query for execution
                     $stmt = $con->prepare($query);
                     // bind the parameters
+                    //把$ user打的id 跟php的:id link在一起. :database & $ is user
                     $stmt->bindParam(':username', $username);
                     $stmt->bindParam(':password', $password);
                     $stmt->bindParam(':firstname', $firstname);

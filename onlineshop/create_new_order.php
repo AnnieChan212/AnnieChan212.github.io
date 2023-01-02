@@ -60,6 +60,7 @@ include 'session.php';
             }
             //count这个var 不管你有多少个product_id,它会auto帮你算
             //record product_id（有多少个就loop几次）这里只有3个所以loop 3time into order_summary & details tables
+            //$i is a var, 
             for ($i = 0; $i < count($product_id); $i++) {
                 if ($i == 0) {
                     if ($product_id[$i] == "" or $quantity[$i] == "")
@@ -69,6 +70,7 @@ include 'session.php';
                         if ($quantity[$i] == "") {
                             $err_msg .= "<div class='alert alert-danger'>Choose Product $i with quatity</div>";
                         }
+                        // $value is array, if productid > 1, show error
                         if ($value[$product_id[$i]] > 1) {
                             $err_msg .= "<div class='alert alert-danger'>No Duplicate Product $i allowed</div>";
                         }
