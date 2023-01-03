@@ -6,7 +6,7 @@ session_start();
 <html>
 
 <head>
-    <title>PDO - Create a Record - PHP CRUD Tutorial</title>
+    <title>Login Littlazy Camera</title>
     <!-- Latest compiled and minified Bootstrap CSS (Apply your Bootstrap here -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 
@@ -109,7 +109,7 @@ session_start();
                     // Start the session
                     // session = box, user key's username store inside box
                     $_SESSION['user'] = $_POST['username'];
-                    header("Location: http://localhost/portfolio/onlineshop/home.php");
+                    header("Location: home.php");
                 } else {
                     $statusErr = "Your account is ban*";
                 }
@@ -134,8 +134,8 @@ session_start();
                     echo "<div class='alert alert-danger'>Access Decline.</div>";
                 }
                 ?>
-                <h1 class="h1 mb-3 fw-normal">LITTLAZY SHOP</h1>
-                <h1 class="h3 mb-3 fw-normal">Please Sign In</h1>
+                <h1 class="h1 mb-3 fw-normal">LITTLAZY</h1>
+                <h1 class="h3 mb-3 fw-normal">Sign In</h1>
 
                 <!--echo error msg-->
                 <span class="error"><?php echo $useErr; ?></span>

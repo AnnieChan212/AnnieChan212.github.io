@@ -8,7 +8,7 @@ include 'session.php';
 <html>
 
 <head>
-    <title>PDO - Create a Record - PHP CRUD Tutorial</title>
+    <title>Create Order</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <style>
@@ -148,7 +148,7 @@ include 'session.php';
                         $stmt->bindParam(':price_each', $price_each);
                         $stmt->execute();
                     }
-                    header("Location: http://localhost/portfolio/onlineshop/order_read.php?action=successful");
+                    header("Location: order_read.php?action=successful");
                 }
             } else {
                 echo "<div class='alert alert-danger'>.$err_msg.</div>";

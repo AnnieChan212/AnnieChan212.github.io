@@ -13,19 +13,19 @@
                     <a class="nav-link" href="create_new_order.php">Create NewOrder</a>
                 </li> -->
                 <li class="nav-item">
-                    <a class="nav-link" href="order_read.php">Order</a>
+                    <a class="nav-link" href="order_read.php">Orders</a>
                 </li>
                 <!-- <li class="nav-item">
                 <a class="nav-link" href="product_create.php">Create Product</a>
             </li> -->
                 <li class="nav-item">
-                    <a class="nav-link" href="product_read.php">Product</a>
+                    <a class="nav-link" href="product_read.php">Products</a>
                 </li>
                 <!-- <li class="nav-item">
                 <a class="nav-link" href="customer_create.php">Create Customer</a>
             </li> -->
                 <li class="nav-item">
-                    <a class="nav-link" href="customer_read.php">Customer</a>
+                    <a class="nav-link" href="customer_read.php">Customers</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="contact_us.php">Contact Us</a>

@@ -6,7 +6,7 @@ include 'session.php';
 <html>
 
 <head>
-    <title>PDO - Create a Record - PHP CRUD Tutorial</title>
+    <title>Create Customer</title>
     <!-- Latest compiled and minified Bootstrap CSS (Apply your Bootstrap here -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
@@ -137,7 +137,7 @@ include 'session.php';
                     $stmt->bindParam(':registration_date_time', $registration_date_time);
                     // Execute the query
                     if ($stmt->execute()) {
-                        header("Location: http://localhost/portfolio/onlineshop/customer_read.php?action=successful");
+                        header("Location: customer_read.php?action=successful");
                     } else {
                         echo "<div class='alert alert-danger'>Unable to save record.</div>";
                         //echo $password;

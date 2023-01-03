@@ -6,7 +6,7 @@ include 'session.php';
 <html>
 
 <head>
-    <title>PDO - Read Records - PHP CRUD Tutorial</title>
+    <title>Product Update</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 
@@ -110,6 +110,18 @@ include 'session.php';
             $stmt->bindParam(':manufacture_date', $manufacture_date);
             $stmt->bindParam(':expired_date', $expired_date);
             $stmt->bindParam(':id', $id);
+
+            if (empty($promotion_price)) {
+                $promotion_price = NULL;
+            } else if (($_POST["promotion_price"]) > ($_POST["price"])) {
+                echo "<div class='alert alert-danger'>Promotion price should be cheaper than original price</div>";
+            }
+
+            if (empty($expired_date)) {
+                $expired_date = NULL;
+            } else if (($_POST['expired_date']) < ($_POST['manufacture_date'])) {
+                echo "<div class='alert alert-danger'>Expired date must late than manufacture date</div>";
+            }
             // Execute the query
             if ($stmt->execute()) {
                 echo "<div class='alert alert-success'>Record was updated.</div>";

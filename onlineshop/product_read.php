@@ -6,7 +6,7 @@ include 'session.php';
 <html>
 
 <head>
-    <title>PDO - Create a Record - PHP CRUD Tutorial</title>
+    <title>Product List</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
@@ -85,7 +85,12 @@ include 'session.php';
                 echo "<td>{$description}</td>";
                 //echo "<td>{$price}</td>";
                 echo "<td class= \"text-end\" >RM " . number_format((float)$price, 2, '.', '') . "</td>";
-                echo "<td class= \"text-end\" >RM " . number_format((float)$promotion_price, 2, '.', '') . "</td>";
+                //echo "<td class= \"text-end\" >RM " . number_format((float)$promotion_price, 2, '.', '') . "</td>";
+                if (htmlspecialchars($promotion_price, ENT_QUOTES) == NULL) {
+                    echo "<td class= \"text-end\" > " . "-" . "</td>";
+                } else {
+                    echo "<td class= \"text-end\" > $promotion_price</td>";
+                };
                 echo "<td>";
                 // read one record
                 echo "<a href='product_read_one.php?id={$id}' class='btn btn-info m-r-1em mx-2'>Read</a>";

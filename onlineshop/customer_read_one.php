@@ -6,7 +6,7 @@ include 'session.php';
 <html>
 
 <head>
-    <title>PDO - Read One Record - PHP CRUD Tutorial</title>
+    <title>Customer Details</title>
     <!-- Latest compiled and minified Bootstrap CSS  -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
@@ -72,10 +72,6 @@ include 'session.php';
             <tr>
                 <td>Username</td>
                 <td><?php echo htmlspecialchars($username, ENT_QUOTES);  ?></td>
-            </tr>
-            <tr>
-                <td>Password</td>
-                <td><?php echo htmlspecialchars($password, ENT_QUOTES);  ?></td>
             </tr>
             <tr>
                 <td>First Name</td>

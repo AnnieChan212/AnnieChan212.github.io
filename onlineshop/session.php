@@ -5,6 +5,6 @@
 // check got tong xing zhen or not
 session_start();
 if (!isset($_SESSION['user'])) {
-    header("Location: http://localhost/portfolio/onlineshop/login.php?action=decline");
+    header("Location: index.php?action=decline");
 }
 ?>

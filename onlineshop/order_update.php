@@ -8,7 +8,7 @@ include 'session.php';
 <html>
 
 <head>
-    <title>PDO - Read One Record - PHP CRUD Tutorial</title>
+    <title>Update Order</title>
     <!-- Latest compiled and minified Bootstrap CSS  -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
@@ -94,13 +94,11 @@ include 'session.php';
                     $stmt->bindParam(':quantity', $quantity[$x]);
                     $stmt->bindParam(':order_detail_id', $order_detail_id[$x]);
                     $stmt->bindParam(':price_each', $price_each);
-
-                    if ($stmt->execute()) {
-                        echo "<div class='alert alert-success'>Order was updated.</div>";
-                    } else {
-                        echo "<div class='alert alert-danger'>Unable to update order.</div>";
-                    }
+                    $stmt->execute();
                 }
+                echo "<div class='alert alert-success'>Order was updated.</div>";
+            } else {
+                echo "<div class='alert alert-danger'>Unable to update order.</div>";
             }
         }
         ?>

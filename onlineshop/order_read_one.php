@@ -6,7 +6,7 @@ include 'session.php';
 <html>
 
 <head>
-    <title>PDO - Read One Record - PHP CRUD Tutorial</title>
+    <title>Order Details</title>
     <!-- Latest compiled and minified Bootstrap CSS  -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
@@ -87,7 +87,11 @@ include 'session.php';
                             <td class="text-end">
                                 <?php echo number_format((float)htmlspecialchars($price, ENT_QUOTES), 2, '.', ''); ?></td>
                             <td class="text-end">
-                                <?php echo htmlspecialchars($promotion_price, ENT_QUOTES); ?></td>
+                                <?php if (htmlspecialchars($promotion_price, ENT_QUOTES) == NULL) {
+                                    echo "-";
+                                } else {
+                                    echo number_format((float)htmlspecialchars($promotion_price, ENT_QUOTES), 2, '.', '');
+                                } ?></td>
                             <td class="text-end">
                                 <?php echo number_format((float)htmlspecialchars($price_each, ENT_QUOTES), 2, '.', ''); ?></td>
                         </tr>
