@@ -105,7 +105,7 @@ include 'session.php';
                 <tr>
                     <th scope="row">Total Amount</th>
                     <td colspan="3"></td>
-                    <?php echo "<td class= \"text-end\" > <b> RM " . number_format((float) $total_amount, 2, '.', '') . "</b></td>"; ?></td>
+                    <?php echo "<td class= \"text-end\" > RM " . number_format((float) $total_amount, 2, '.', '') . "</td>"; ?></td>
                 </tr>
             </tbody>
         </table>
