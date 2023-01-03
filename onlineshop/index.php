@@ -128,15 +128,15 @@ session_start();
     <main class="form-signin">
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <form>
+
+                <h1 class="h1 mb-3 fw-normal">LITTLAZY</h1>
+                <h1 class="h3 mb-3 fw-normal">Sign In</h1>
                 <?php
                 if (isset($_GET['action'])) {
                     if ($_GET['action'] = 'decline');
-                    echo "<div class='alert alert-danger'>Access Decline.</div>";
+                    echo "<div class='text-danger'>Access Decline*</div>";
                 }
                 ?>
-                <h1 class="h1 mb-3 fw-normal">LITTLAZY</h1>
-                <h1 class="h3 mb-3 fw-normal">Sign In</h1>
-
                 <!--echo error msg-->
                 <span class="error"><?php echo $useErr; ?></span>
                 <span class="error"><?php echo $pasErr; ?></span>
