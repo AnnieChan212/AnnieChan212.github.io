@@ -85,15 +85,15 @@ include 'session.php';
                             <td class="text-center">
                                 <?php echo htmlspecialchars($quantity, ENT_QUOTES);  ?></td>
                             <td class="text-end">
-                                <?php echo number_format((float)htmlspecialchars($price, ENT_QUOTES), 2, '.', ''); ?></td>
+                                <?php echo "RM " . number_format((float)htmlspecialchars($price, ENT_QUOTES), 2, '.', ''); ?></td>
                             <td class="text-end">
                                 <?php if (htmlspecialchars($promotion_price, ENT_QUOTES) == NULL) {
                                     echo "-";
                                 } else {
-                                    echo number_format((float)htmlspecialchars($promotion_price, ENT_QUOTES), 2, '.', '');
+                                    echo "RM " . number_format((float) $promotion_price, 2, '.', '');
                                 } ?></td>
                             <td class="text-end">
-                                <?php echo number_format((float)htmlspecialchars($price_each, ENT_QUOTES), 2, '.', ''); ?></td>
+                                <?php echo "RM " . number_format((float)htmlspecialchars($price_each, ENT_QUOTES), 2, '.', ''); ?></td>
                         </tr>
                 <?php }
                     echo "<b>Customer ID:</b> $customer_id";
@@ -105,7 +105,7 @@ include 'session.php';
                 <tr>
                     <th scope="row">Total Amount</th>
                     <td colspan="3"></td>
-                    <?php echo "<td class= \"text-end\" > <b> RM" . number_format((float) $total_amount, 2, '.', '') . "</b></td>"; ?></td>
+                    <?php echo "<td class= \"text-end\" > <b> RM " . number_format((float) $total_amount, 2, '.', '') . "</b></td>"; ?></td>
                 </tr>
             </tbody>
         </table>
